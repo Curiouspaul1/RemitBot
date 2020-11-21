@@ -56,7 +56,7 @@ class Retweet(tweepy.StreamListener):
     def on_error(self, status):
         logger.error(status)
 
-keywords = ["Python", "Tweepy"] # filters
+keywords = ["#Sad", "Tweepy"] # filters could be hashtags, regular words, etc
 
 
 if __name__ == '__main__':
