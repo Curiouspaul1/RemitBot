@@ -1,4 +1,4 @@
-import tweepy
+from tweepy import StreamListener, API, OAuthHandler, Stream
 import os
 from dotenv import load_dotenv
 import logging
@@ -7,7 +7,7 @@ load_dotenv()
 logger = logging.getLogger()
 
 def create_app():
-    auth = tweepy.OAuthHandler(
+    auth = OAuthHandler(
         os.getenv('CONSUMER_KEY'),
         os.getenv('CONSUMER_SECRET')
     )
@@ -15,7 +15,7 @@ def create_app():
         os.getenv('ACCESS_TOKEN'),
         os.getenv('ACCESS_TOKEN_SECRET')
     )
-    api = tweepy.API(
+    api = API(
         auth, wait_on_rate_limit=True,
         wait_on_rate_limit_notify=True
     )
@@ -29,7 +29,7 @@ def create_app():
     return api
 
 
-class Retweet(tweepy.StreamListener):
+class Retweet(StreamListener):
     def __init__(self, api):
         self.api = api
         self.me = api.me()
@@ -62,5 +62,5 @@ keywords = ["#Sad", "Tweepy"] # filters could be hashtags, regular words, etc
 if __name__ == '__main__':
     api = create_app()
     tweets_listener = Retweet(api)
-    stream = tweepy.Stream(api.auth, tweets_listener)
+    stream = Stream(api.auth, tweets_listener)
     stream.filter(track=keywords, languages=["en"])

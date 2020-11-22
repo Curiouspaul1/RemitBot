@@ -66,7 +66,7 @@ class TwitterClient(object):
         except tweepy.TweepError as e:
             print("Error : " + str(e))          
 
-obj = TwitterClient(input('Enter the word you want to search'))
+obj = TwitterClient(input('Enter the word you want to search ::  '))
 tweets = obj.get_tweets()
 for tweet in tweets:
     print(tweet)
