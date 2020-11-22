@@ -7,7 +7,7 @@ load_dotenv()
 
 
 xyz = TwitterClient('@chopra__mudit')
-xyz.set_query(input('Enter the word you want to search'))
+xyz.set_query(input('Enter the word you want to search'),with_sentiment=True)
 tweets = xyz.get_tweets()
 
 
