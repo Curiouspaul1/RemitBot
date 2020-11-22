@@ -41,6 +41,15 @@ class TwitterClient(object):
     def clean_tweet(self, tweet):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
+    def get_tweet_sentiment(self, tweet):
+        analysis = TextBlob(self.clean_tweet(tweet))
+        if analysis.sentiment.polarity > 0:
+            return 'positive'
+        elif analysis.sentiment.polarity == 0:
+            return 'neutral'
+        else:
+            return 'negative'
+    
     def get_tweets(self):
         tweets = []
 
@@ -56,6 +65,11 @@ class TwitterClient(object):
                 parsed_tweet['user'] = tweet.user.screen_name
                 parsed_tweet['tweet_id'] = tweet.id_str
                 parsed_tweet['user_id'] = tweet.user.id
+                
+                if self.with_sentiment == 1:
+                    parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
+                else:
+                    parsed_tweet['sentiment'] = 'unavailable'
                 
                 if tweet.retweet_count > 0 and self.retweets_only == 1:
                     if parsed_tweet not in tweets:
