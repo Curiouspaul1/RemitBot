@@ -54,6 +54,8 @@ class TwitterClient(object):
 
                 parsed_tweet['text'] = tweet.text
                 parsed_tweet['user'] = tweet.user.screen_name
+                parsed_tweet['tweet_id'] = tweet.id_str
+                parsed_tweet['user_id'] = tweet.user.id
                 
                 if tweet.retweet_count > 0 and self.retweets_only == 1:
                     if parsed_tweet not in tweets:
@@ -67,7 +69,3 @@ class TwitterClient(object):
         except tweepy.TweepError as e:
             print("Error : " + str(e))          
 
-obj = TwitterClient(input('Enter the word you want to search ::  '))
-tweets = obj.get_tweets()
-for tweet in tweets:
-    print(tweet)
