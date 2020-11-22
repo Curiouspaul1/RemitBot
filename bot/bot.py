@@ -1,8 +1,15 @@
 from tweepy import StreamListener, API, OAuthHandler, Stream
 import os
 from dotenv import load_dotenv
+from twitter.twitter_data import TwitterClient
 import logging
 load_dotenv()
+
+
+xyz = TwitterClient('@chopra__mudit')
+xyz.set_query(input('Enter the word you want to search'))
+tweets = xyz.get_tweets()
+
 
 logger = logging.getLogger()
 
