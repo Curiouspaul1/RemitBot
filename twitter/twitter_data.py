@@ -1,10 +1,11 @@
 import os
 import re
 import tweepy
-import credential
 from tweepy import OAuthHandler
 from textblob import TextBlob
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class TwitterClient(object):
     '''
@@ -12,10 +13,10 @@ class TwitterClient(object):
     '''
     def __init__(self, query, retweets_only=False, with_sentiment=False):
         # keys and tokens from the Twitter Dev Console
-        consumer_key = credential.consumer_key
-        consumer_secret = credential.consumer_secret
-        access_token = credential.access_token
-        access_token_secret = credential.access_token_secret
+        consumer_key = os.getenv('CONSUMER_KEY')
+        consumer_secret = os.getenv('CONSUMER_SECRET')
+        access_token = os.getenv('ACCESS_TOKEN')
+        access_token_secret = os.getenv('ACCESS_TOKEN_SECRET')
         # Attempt authentication
         try:
             self.auth = OAuthHandler(consumer_key, consumer_secret)
