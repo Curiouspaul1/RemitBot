@@ -58,10 +58,7 @@ class Retweet(StreamListener):
         logger.error(status)
 
 keywords = [
-    "#RemitBotHelp", "#remitbothelp",
-    "#RemitbotHelp", "#Remitbothelp",
-    "@Remitbothelp", "@remitbothelp",
-    "@RemitBotHelp"
+    "@remit_bot"
 ]
 
 
