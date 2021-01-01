@@ -1,11 +1,5 @@
-# Codechella
+# RemitBot
 
-## Install depencies as follows:
-``pip install -r requirements.txt``
-
-## Add Environment variables as follows before running the app:
-CONSUMER_KEY: Ask Mudit for values
-CONSUMER_SECRET: Ask Mudit for values
-
-ACCESS_TOKEN: Ask Mudit for values
-ACCESS_TOKEN_SECRET: Ask Mudit for values
+RemitBot is a twitter bot that helps to retweet tweets about missing person(s) 
+on twitter. If you have to make a tweet like simply tag the bot and ask people 
+to retweet and tag (@remit_bot) as well.
