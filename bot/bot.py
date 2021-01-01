@@ -32,6 +32,7 @@ def create_app():
 
 def find_tweets(api):
     tweets = api.mentions_timeline()
+    # filter tweets
     tweets = [
         tweet for tweet in tweets if tweet.in_reply_to_status_id is None \
              and tweet.retweeted is False
