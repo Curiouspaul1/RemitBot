@@ -1,7 +1,7 @@
-from tweepy import StreamListener, API, OAuthHandler, Stream
+from tweepy import API, OAuthHandler
 import os
 from dotenv import load_dotenv
-import logging
+import logging, time
 load_dotenv()
 
 logger = logging.getLogger()
@@ -29,41 +29,24 @@ def create_app():
     return api
 
 
-class Retweet(StreamListener):
-    def __init__(self, api):
-        self.api = api
-        self.me = api.me()
 
-    def on_status(self, tweet):
-        logger.info(f"Processing tweet id {tweet.id}")
-        print(tweet)
-        if tweet.in_reply_to_status_id is not None or \
-            tweet.user.id == self.me.id:
-            # This tweet is a reply or I'm its author so, ignore it
-            return
-        if not tweet.favorited:
-            # Mark it as Liked, since we have not done it yet
-            try:
-                tweet.favorite()
-            except Exception as e:
-                logger.error("Error on fav", exc_info=True)
-        if not tweet.retweeted:
-            # Retweet, since we have not retweeted it yet
-            try:
-                tweet.retweet()
-            except Exception as e:
-                logger.error("Error on fav and retweet", exc_info=True)
-
-    def on_error(self, status):
-        logger.error(status)
-
-keywords = [
-    "@remit_bot"
-]
-
+def find_tweets(api):
+    tweets = api.mentions_timeline()
+    tweets = [
+        tweet for tweet in tweets if tweet.in_reply_to_status_id is None \
+             and tweet.retweeted is False
+    ]
+    for tweet in tweets:
+        print(tweet.text)
+        try:
+            tweet.retweet()
+            tweet.favorite()
+            print("Done")
+        except Exception as e:
+            print("Error Trying to retweet or like")
 
 if __name__ == '__main__':
     api = create_app()
-    tweets_listener = Retweet(api)
-    stream = Stream(api.auth, tweets_listener)
-    stream.filter(track=keywords, languages=["en"])
+    while True:
+        find_tweets(api)
+        time.sleep(20)
